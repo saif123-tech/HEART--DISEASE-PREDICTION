@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial; padding: 30px; }
+    h2 { color: #2c3e50; }
+    .section { margin-bottom: 20px; }
+    .tips ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h2>🩺 Heart Disease Prediction Report</h2>
+  
+  <div class="section">
+    <strong>Prediction Result:</strong> {{ result }}<br>
+    <strong>Confidence:</strong> {{ probability }}%
+  </div>
+
+  <div class="section">
+    <strong>Patient Info:</strong><br>
+    Age: {{ form_data.age }}<br>
+    Sex: {{ form_data.sex }}<br>
+    Chest Pain Type: {{ form_data.chest_pain_type }}<br>
+    Resting Blood Pressure: {{ form_data.resting_blood_pressure }}<br>
+    Cholesterol: {{ form_data.cholesterol }}<br>
+    Fasting Blood Sugar: {{ form_data.fasting_blood_sugar }}<br>
+    Resting ECG: {{ form_data.resting_ecg }}<br>
+    Max Heart Rate: {{ form_data.max_heart_rate }}<br>
+    Exercise Angina: {{ form_data.exercise_angina }}<br>
+    Oldpeak: {{ form_data.oldpeak }}<br>
+    ST Slope: {{ form_data.st_slope }}<br>
+  </div>
+
+  <div class="section tips">
+    <strong>Health Recommendations:</strong>
+    <ul>
+      {% for tip in recommendations %}
+        <li>{{ tip }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <strong>Model Version:</strong> {{ model_version }}<br>
+    <strong>Last Updated:</strong> {{ last_trained }}
+  </div>
+</body>
+</html> 

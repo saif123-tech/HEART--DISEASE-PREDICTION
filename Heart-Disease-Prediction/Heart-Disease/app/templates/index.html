@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+              background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+            padding: 20px;
+          
+        }
+
+       
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(33, 32, 32, 0.1);
+            overflow: hidden;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        
+
+        .header {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            
+        }
+
+        
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+            animation: slideInDown 0.5s ease-out;
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3436;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input:hover {
+            border-color: #ff6b6b;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+       
+
+        
+
+        
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .result-card {
+        
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        
+
+        .result-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+
+        .prediction-text {
+            font-size: 2rem;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+       
+
+        .prediction-positive {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+           
+        }
+
+        .prediction-negative {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(68, 70, 70, 0.3);
+        }
+
+        .feedback-section {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .feedback-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .feedback-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .feedback-input {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .feedback-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .feedback-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body data-has-prediction="{{ 'true' if prediction is not none else 'false' }}">
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-heartbeat"></i> Heart Disease Predictor</h1>
+         
+        </div>
+
+        <div class="content">
+            {% if message %}
+            <div class="success-message">
+                <i class="fas fa-check-circle"></i> {{ message }}
+            </div>
+            {% endif %}
+
+            <form method="post" action="/predict-ui" id="predictionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Age</label>
+                        <input type="number" name="age" step="0.1" required
+                            value="{{ form_data.age if form_data is defined else '' }}" placeholder="Enter age">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-venus-mars"></i> Sex (0 = Female, 1 = Male)</label>
+                        <input type="number" name="sex" min="0" max="1" step="1" required
+                            value="{{ form_data.sex if form_data is defined else '' }}" placeholder="0 or 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-heart"></i> Chest Pain Type (0-3)</label>
+                        <input type="number" name="chest_pain_type" min="0" max="3" step="1" required
+                            value="{{ form_data.chest_pain_type if form_data is defined else '' }}" placeholder="0, 1, 2, or 3">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-tint"></i> Resting Blood Pressure</label>
+                        <input type="number" name="resting_blood_pressure" step="0.1" required
+                            value="{{ form_data.resting_blood_pressure if form_data is defined else '' }}" placeholder="Blood pressure value">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-droplet"></i> Cholesterol</label>
+                        <input type="number" name="cholesterol" step="0.1" required
+                            value="{{ form_data.cholesterol if form_data is defined else '' }}" placeholder="Cholesterol level">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-cookie-bite"></i> Fasting Blood Sugar (0 = No, 1 = Yes)</label>
+                        <input type="number" name="fasting_blood_sugar" min="0" max="1" step="1" required
+                            value="{{ form_data.fasting_blood_sugar if form_data is defined else '' }}" placeholder="0 or 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-wave-square"></i> Resting ECG (0-2)</label>
+                        <input type="number" name="resting_ecg" min="0" max="2" step="1" required
+                            value="{{ form_data.resting_ecg if form_data is defined else '' }}" placeholder="0, 1, or 2">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-running"></i> Max Heart Rate</label>
+                        <input type="number" name="max_heart_rate" step="0.1" required
+                            value="{{ form_data.max_heart_rate if form_data is defined else '' }}" placeholder="Maximum heart rate">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-exclamation-triangle"></i> Exercise Angina (0 = No, 1 = Yes)</label>
+                        <input type="number" name="exercise_angina" min="0" max="1" step="1" required
+                            value="{{ form_data.exercise_angina if form_data is defined else '' }}" placeholder="0 or 1">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-chart-line"></i> Oldpeak</label>
+                        <input type="number" name="oldpeak" step="0.1" required
+                            value="{{ form_data.oldpeak if form_data is defined else '' }}" placeholder="ST depression value">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-arrow-up"></i> ST Slope (0-2)</label>
+                        <input type="number" name="st_slope" min="0" max="2" step="1" required
+                            value="{{ form_data.st_slope if form_data is defined else '' }}" placeholder="0, 1, or 2">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-brain"></i> Predict Heart Disease Risk
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing patient data...</p>
+            </div>
+
+            {% if prediction is not none %}
+            <div class="result-container">
+                <div class="result-card">
+                    <div class="result-label">Prediction Result:</div>
+                    <div class="prediction-text {{ 'prediction-positive' if prediction==1 else 'prediction-negative' }}">
+                        <i class="fas {{ 'fa-exclamation-triangle' if prediction==1 else 'fa-check-circle' }}"></i>
+                        {{ "Heart Disease Detected" if prediction==1 else "Normal - No Heart Disease" }}
+                    </div>
+                    {% if probability %}
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid #e0e0e0;">
+                        <p style="margin: 0; font-weight: 600; color: #2d3436;">
+                            <i class="fas fa-chart-line"></i> <strong>Confidence Score:</strong> {{ probability }}% chance of heart disease
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if recommendations %}
+                <div class="result-card">
+                    <div class="result-label">🩺 Health Recommendations:</div>
+                    <ul style="text-align: left; padding-left: 20px; margin: 0;">
+                        {% for tip in recommendations %}
+                        <li style="margin-bottom: 10px; font-size: 1rem; color: #2d3436;">{{ tip }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <form method="post" action="/download-report" style="margin-bottom: 25px;">
+                  {% if form_data %}
+                  {% for key, val in form_data.items() %}
+                    <input type="hidden" name="{{ key }}" value="{{ val }}">
+                  {% endfor %}
+                  {% endif %}
+                  <button type="submit" style="padding: 12px 24px; background: #0984e3; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 10px;">
+                    📄 Download PDF Report
+                  </button>
+                </form>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                    <div class="result-label">🔧 Model Information:</div>
+                    <div style="text-align: left; padding: 10px; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid #e0e0e0;">
+                        <p style="margin: 5px 0; font-weight: 600; color: #2d3436;">
+                            <i class="fas fa-code-branch"></i> <strong>Model Version:</strong> {{ model_version }}
+                        </p>
+                        <p style="margin: 5px 0; font-weight: 600; color: #2d3436;">
+                            <i class="fas fa-calendar-alt"></i> <strong>Last Updated:</strong> {{ last_trained }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <h3><i class="fas fa-comment-dots"></i> Help Improve Our Model</h3>
+                    <form method="post" action="/feedback-ui" class="feedback-form">
+                        <div class="form-group">
+                            <label style="color: white;">Was the prediction incorrect?</label>
+                            <label style="color: white; font-size: 0.9rem;">Your Correct Label (0 = Normal, 1 = Heart Disease):</label>
+                            <input type="number" name="correct_label" min="0" max="1" required class="feedback-input" placeholder="0 or 1">
+                        </div>
+
+                        {% for field in [
+                        "age", "sex", "chest_pain_type", "resting_blood_pressure",
+                        "cholesterol", "fasting_blood_sugar", "resting_ecg",
+                        "max_heart_rate", "exercise_angina", "oldpeak", "st_slope"
+                        ] %}
+                        <input type="hidden" name="{{ field }}" value="{{ form_data[field] if form_data is defined else '' }}">
+                        {% endfor %}
+                        
+                        <button type="submit" class="feedback-btn">
+                            <i class="fas fa-paper-plane"></i> Submit Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Form submission animation
+        document.getElementById('predictionForm').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.submit-btn').style.display = 'none';
+        });
+
+        // Input focus animations
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Smooth scroll to results if prediction exists
+        var hasPrediction = document.body.getAttribute('data-has-prediction') === 'true';
+        if (hasPrediction) {
+            setTimeout(function() {
+                var resultContainer = document.querySelector('.result-container');
+                if (resultContainer) {
+                    resultContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>

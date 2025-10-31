@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+scikit-learn
+pandas
+numpy
+pydantic
+#pip install jinja2 python-multipart
+jinja2
+reportlab
